@@ -1,16 +1,8 @@
-/* jshint node: true */
-
 'use strict';
 
-var HOSTNAME = 'finance.yahoo.com';
-var PATH = '/webservice/v1/symbols/allcurrencies/quote?format=json';
+require('es6-promise').polyfill();
 
 var optimist = require('optimist');
-
-var getJSON = require('./lib/getJSON');
-var printResponse = require('./lib/printResponse');
-var processResponse = require('./lib/processResponse');
-
 var argv = optimist
     .usage('$0 displays currency data using Yahoo Finance')
     .options('n', {
@@ -32,10 +24,8 @@ if (argv.h) {
     return require('optimist').showHelp();
 }
 
-getJSON(HOSTNAME, PATH, function (error, data) {
-    if (error) {
-        return process.stderr.write(error + '\n');
-    }
+var processApis = require('./lib/processApis');
+var yahooApi = require('./lib/api/yahooApi');
+var openExchangeApi = require('./lib/api/openExchangeApi');
 
-    printResponse(processResponse(data, argv));
-});
+processApis([yahooApi(), openExchangeApi()], argv);
