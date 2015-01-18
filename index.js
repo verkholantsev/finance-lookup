@@ -4,15 +4,10 @@ require('es6-promise').polyfill();
 
 var optimist = require('optimist');
 var argv = optimist
-    .usage('$0 displays currency data using Yahoo Finance')
+    .usage('$0 displays currency data using public finance api')
     .options('n', {
         alias: 'name',
         describe: 'Currency name (in uppercase)'
-    })
-    .options('c', {
-        alias: 'count',
-        describe: 'Currency count',
-        default: 1
     })
     .options('h', {
         alias: 'help',
